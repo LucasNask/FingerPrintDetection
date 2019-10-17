@@ -1,11 +1,12 @@
 package FingerPrintCore;
 
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
+import org.bytedeco.opencv.opencv_core.Mat;
+import org.bytedeco.opencv.opencv_core.MatOp;
+import org.bytedeco.opencv.opencv_core.Scalar;
+import org.bytedeco.opencv.opencv_core.Size;
+
+import static org.bytedeco.opencv.global.opencv_core.*;
+import static org.bytedeco.opencv.global.opencv_imgproc.*;
 
 public class FingerPrint {
 
@@ -17,7 +18,7 @@ public class FingerPrint {
   
     public void binarization(){
     	
-    	double threshold = Imgproc.threshold(this.getImagemColorida() , this.getInputBinary() , 0,255, Imgproc.THRESH_BINARY);
+    	double threshold = threshold(this.getImagemColorida() , this.getInputBinary() , 0,255, THRESH_BINARY);
         
     }
     
@@ -29,29 +30,29 @@ public class FingerPrint {
         
 
         Mat imgGray = new Mat();
-        Imgproc.cvtColor(img, imgGray, Imgproc.COLOR_BGR2GRAY);
+        cvtColor(img, imgGray, COLOR_BGR2GRAY);
 
         Mat tresh = new Mat();
-        double thresh = Imgproc.threshold(imgGray, tresh, 100, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU); 
+        double thresh = threshold(imgGray, tresh, 100, 255, THRESH_BINARY_INV | THRESH_OTSU); 
        // CvUtilsFX.showImage(tresh, "tresh_1");
 
-        Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_CROSS, new Size(3,3));
+        Mat element = getStructuringElement(MORPH_CROSS, new Size(3,3));
         Mat eroded = new Mat();
         Mat temp = new Mat();
-        Mat skel = new Mat (tresh.rows(), tresh.cols(), CvType.CV_8UC1, new Scalar (0));
+        Mat skel = new Mat (tresh.rows(), tresh.cols(), CV_8UC1, new Scalar (0));
 
         int size = _img.cols() * _img.rows();
         int zeros = 0;
 
         while(!done)
         {
-            Imgproc.erode(tresh, eroded, element);
-            Imgproc.dilate(eroded, temp, element);
-            Core.subtract(tresh, temp, temp);
-            Core.bitwise_or(skel, temp, skel);
+            erode(tresh, eroded, element);
+            dilate(eroded, temp, element);
+            subtract(tresh, temp, temp);
+            bitwise_or(skel, temp, skel);
             eroded.copyTo(tresh);
 
-            zeros = size - Core.countNonZero(tresh);
+            zeros = size - countNonZero(tresh);
             if(zeros == size)
                 done = true;
         }
@@ -68,9 +69,6 @@ public class FingerPrint {
 	public void setInputBinary(Mat inputBinary) {
 		this.inputBinary = inputBinary;
 	}
-	public void setInputBinary(byte[] inputBinary) {
-		this.inputBinary.put(0, 0, inputBinary);
-	}
 
 	public Mat getImagemColorida() {
 		return imagemColorida;
@@ -79,9 +77,6 @@ public class FingerPrint {
 	public void setImagemColorida(Mat imagemColorida) {
 		this.imagemColorida = imagemColorida;
 	}
-	public void setImagemColorida(byte[] imagemColorida) {
-		this.imagemColorida.put(0, 0, imagemColorida);
-	}
 
 	public Mat getImagemColorida2() {
 		return imagemColorida2;
@@ -89,10 +84,6 @@ public class FingerPrint {
 
 	public void setImagemColorida2(Mat imagemColorida2) {
 		this.imagemColorida2 = imagemColorida2;
-	}
-    
-	public void setImagemColorida2(byte[] imagemColorida2) {
-		this.imagemColorida.put(0, 0, imagemColorida2);
 	}
 
 	public Mat getSkeleton() {
@@ -103,9 +94,6 @@ public class FingerPrint {
 		this.skeleton = skeleton;
 	}
    
-	public void setSkeleton(byte[] Skeleton) {
-		this.imagemColorida.put(0, 0, Skeleton);
-	}
     
 	
 }

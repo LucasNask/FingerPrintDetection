@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import org.opencv.core.Mat;
+import org.bytedeco.opencv.opencv_core.Mat;
 
 public class ImageUtils {
 	
@@ -23,7 +23,6 @@ public class ImageUtils {
 	        }
 	        int bufferSize = m.channels()*m.cols()*m.rows();
 	        byte [] b = new byte[bufferSize];
-	        m.get(0,0,b); // get all the pixels
 	        BufferedImage image = new BufferedImage(m.cols(),m.rows(), type);
 	        final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 	        System.arraycopy(b, 0, targetPixels, 0, b.length);  
