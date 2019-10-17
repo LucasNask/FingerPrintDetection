@@ -8,8 +8,8 @@ import java.awt.image.DataBufferByte;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import org.bytedeco.opencv.opencv_core.Mat;
+import static org.bytedeco.opencv.global.opencv_imgcodecs.*;
 
 public class test {
 	private Mat mat = new Mat();
@@ -46,7 +46,6 @@ public class test {
 	        }
 	        int bufferSize = m.channels()*m.cols()*m.rows();
 	        byte [] b = new byte[bufferSize];
-	        m.get(0,0,b); // get all the pixels
 	        BufferedImage image = new BufferedImage(m.cols(),m.rows(), type);
 	        final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 	        System.arraycopy(b, 0, targetPixels, 0, b.length);  
@@ -72,5 +71,9 @@ public class test {
 		
 		test.getMat();
 		System.out.println("foi");
+		
+		Mat imagem = imread("src/resources/fingerprint.png");
+		System.out.println(imagem);
+		
 	}
 }
