@@ -29,18 +29,21 @@ public class FingerPrintTester {
 		
 		//printando a imagem original
 		System.out.println("Printando imagem normal---");
-		imageUtils.displayImage(imageUtils.Mat2BufferedImage(finger.getImagemColorida()));
+		//imageUtils.displayImage(imageUtils.Mat2BufferedImage(finger.getImagemColorida()));
+		imageUtils.show(imagem, "Original");
 		
 		
 		//Binariza��o
 		finger.binarization();
 		System.out.println("Printando imagem binarizada---");
-		imageUtils.displayImage(imageUtils.Mat2BufferedImage(finger.getInputBinary()));
+		//imageUtils.displayImage(imageUtils.Mat2BufferedImage(finger.getInputBinary()));
+		imageUtils.show(finger.getInputBinary(), "Binarizada");
 		
 		//Skeletiza��o
 		System.out.println("Printando imagem Skeletizada--");
-		finger.skeleton(finger.getInputBinary());
-		imageUtils.displayImage(imageUtils.Mat2BufferedImage(finger.getInputBinary()));
+		finger.skeleton(finger.getImagemColorida());
+		//imageUtils.displayImage(imageUtils.Mat2BufferedImage(finger.getInputBinary()));
+		//imageUtils.show(finger.getInputBinary(), "Skelletizada");
 		
 		
 		

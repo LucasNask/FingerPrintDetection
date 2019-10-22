@@ -8,7 +8,10 @@ import java.awt.image.DataBufferByte;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.WindowConstants;
 
+import org.bytedeco.javacv.CanvasFrame;
+import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.bytedeco.opencv.opencv_core.Mat;
 
 public class ImageUtils {
@@ -41,5 +44,14 @@ public class ImageUtils {
 	        frame.add(lbl);
 	        frame.setVisible(true);
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    }
+	    
+	    
+	    public void show(final Mat image, final String title) {
+	        CanvasFrame canvas = new CanvasFrame(title, 1);
+	        canvas.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	        final OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();
+
+	        canvas.showImage(converter.convert(image));
 	    }
 }

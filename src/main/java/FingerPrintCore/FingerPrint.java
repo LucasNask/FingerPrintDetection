@@ -5,6 +5,8 @@ import org.bytedeco.opencv.opencv_core.MatOp;
 import org.bytedeco.opencv.opencv_core.Scalar;
 import org.bytedeco.opencv.opencv_core.Size;
 
+import Util.ImageUtils;
+
 import static org.bytedeco.opencv.global.opencv_core.*;
 import static org.bytedeco.opencv.global.opencv_imgproc.*;
 
@@ -14,11 +16,13 @@ public class FingerPrint {
     private Mat imagemColorida2 = new Mat();
     private Mat inputBinary = new Mat();
     private Mat skeleton = new Mat();
+    private ImageUtils imageUtils = new ImageUtils();
 
   
     public void binarization(){
     	
-    	double threshold = threshold(this.getImagemColorida() , this.getInputBinary() , 0,255, THRESH_BINARY);
+    	cvtColor(imagemColorida, imagemColorida2, COLOR_BGR2GRAY);
+    	double threshold = threshold(this.getImagemColorida2() , this.getInputBinary() , 0,255, CV_THRESH_BINARY | CV_THRESH_OTSU);
         
     }
     
@@ -57,6 +61,7 @@ public class FingerPrint {
                 done = true;
         }
         //imageUtils.displayImage(imageUtils.Mat2BufferedImage(skel));
+        imageUtils.show(skel, "Skelletizada");
         //CvUtilsFX.showImage(skel, "Skeleton");
     }
     
